@@ -16,6 +16,19 @@ def est_authentifie():
 def hello_world():
     return render_template('hello.html')
 
+
+@app.route('/fiche_nom/<int:post_nom>')
+def Readnom(post_nom):
+    conn = sqlite3.connect('database.db')
+    cursor = conn.cursor()
+    cursor.execute('SELECT * FROM clients WHERE nom = ?', (post_nom,))
+    data = cursor.fetchall()
+    conn.close()
+    # Rendre le template HTML et transmettre les données
+    return render_template('read_data.html', data=data)
+
+
+
 @app.route('/lecture')
 def lecture():
     if not est_authentifie():
